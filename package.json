@@ -22,5 +22,8 @@
   "bugs": {
     "url": "https://github.com/epGameDev/SpaceProgram/issues"
   },
-  "homepage": "https://github.com/epGameDev/SpaceProgram#readme"
+  "homepage": "https://github.com/epGameDev/SpaceProgram#readme",
+  "dependencies": {
+    "csv-parse": "^5.3.5"
+  }
 }
