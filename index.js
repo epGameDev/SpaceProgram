@@ -1,29 +1,39 @@
 const http = require("http");
+const { isNumberObject } = require("util/types");
 
 const PORT = 3000;
 
+const data = [
+    {
+        id: "001",
+        name: "Bulbasaur",
+        type: "grass",
+        type2: "poison",
+    },
+    {
+        id: "002",
+        name: "Ivysaur",
+        type: "grass",
+        type2: "poison",
+    },
+]
+
 const server = http.createServer((req, res) => { //req = writeable stream, res = readable stream
-    if (req.url === "/pokemon")
+    const uri = req.url.split('/')
+    if (uri[1] === "pokemon")
     {
         res.writeHead(200, {'Content-Type': "application/json"});
-        res.end(JSON.stringify(
-        [
-            {
-                id: "001",
-                name: "Bulbasaur",
-                type: "grass",
-                type2: "poison",
-            },
-            {
-                id: "002",
-                name: "Ivysaur",
-                type: "grass",
-                type2: "poison",
-            },
-        ]
-        ));
+        if (uri.length === 3)
+        {
+            res.end(JSON.stringify(data[Number(uri[2]) - 1]));
+        }
+        else
+        {
+            res.end(JSON.stringify( data ));
+        }
     }
-    else if (req.url === "/") {
+    else if (uri[1] === "pokedex") 
+    {
         res.writeHead(200, {'Content-Type': "text/html"});
         res.write
         (
