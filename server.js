@@ -1,4 +1,5 @@
 const express = require("express");
+const path = require("path");
 
 const PORT = 3000;
 
@@ -9,7 +10,8 @@ app.get('/', (req, res) => {
 });
 
 app.get("/messages", (req, res) => {
-    res.send("<h1> You have no messages here today!! :( </h1>");
+    // res.send("<h1> You have no messages here today!! :( </h1>");
+    res.sendFile(path.join(__dirname, "index.html"));
 });
 
 app.post("/messages", (req, res) => {
