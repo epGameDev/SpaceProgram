@@ -55,7 +55,10 @@ app.post("/messages", (req, res) => {
     console.log(`<p> ...updating messages </p>`);
 });
 
+app.use((req, res, next) => {
+
+});
+
 app.listen(PORT, () => {
     console.log(`Listening on port: ${PORT}...`);
 });
-
