@@ -1,28 +1,7 @@
 const express = require("express");
 const path = require("path");
-
-const people = [
-    {
-        id: 0,
-        name: "Homer Simpson"
-    },
-    {
-        id: 1,
-        name: "Marge Simpson",
-    },
-    {
-        id: 2,
-        name: "Bart Simpson",
-    },
-    {
-        id: 3,
-        name: "Lisa Simpson",
-    },
-    {
-        id: 4,
-        name: "Maggie Simpson"
-    }
-];
+const messageController = require("./controllers/messages.controller.js")
+const peopleController = require("./controllers/people.controller");
 
 const PORT = 3000;
 
@@ -58,51 +37,20 @@ app.use( express.json() );
 //============================//
 //========= /people/ =========//
 
-app.get("/people", (req, res) => res.json(people));
+app.get("/people", peopleController.getPeople);
 
-app.post("/people", (req, res) => {
+app.post("/people", peopleController.postPeople);
 
-    if(!req.body.name) 
-    {
-      return res.status(400).json({ error: "Friend name seems to be missing."});
-    }
-    else
-    {
-        const newPerson = {
-            id: people.length,
-            name: req.body.name
-        }
-        people.push(newPerson);
-    
-        res.json(newPerson);
-    }
-});
-
-app.get("/people/:personID", (req, res) => {
-    const personID = Number(req.params.personID);
-    const person = people[personID];
-    if(person) {
-        res.status(200).json(person);
-    }else {
-        res.status(404).json({
-            error: "Person does not exist..."
-        });
-    }
-});
+app.get("/people/:personID", peopleController.getPerson);
 
 
 
 //==============================//
 //========= /messages/ =========//
 
-app.get("/messages", (req, res) => {
-    // res.send("<h1> You have no messages here today!! :( </h1>");
-    res.sendFile(path.join(__dirname, "index.html"));
-});
+app.get("/messages", messageController.getMessages);
 
-app.post("/messages", (req, res) => {
-    console.log(`<p> ...updating messages </p>`);
-});
+app.post("/messages", messageController.postMessages);
 
 
 
