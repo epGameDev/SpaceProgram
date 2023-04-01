@@ -52,12 +52,31 @@ app.use( (req, res, next) => {
     console.log(` Time Elapsed: ${deltaTime}ms`);
 });
 
+app.use( express.json() );
 
 
 //============================//
 //========= /people/ =========//
 
 app.get("/people", (req, res) => res.json(people));
+
+app.post("/people", (req, res) => {
+
+    if(!req.body.name) 
+    {
+      return res.status(400).json({ error: "Friend name seems to be missing."});
+    }
+    else
+    {
+        const newPerson = {
+            id: people.length,
+            name: req.body.name
+        }
+        people.push(newPerson);
+    
+        res.json(newPerson);
+    }
+});
 
 app.get("/people/:personID", (req, res) => {
     const personID = Number(req.params.personID);
