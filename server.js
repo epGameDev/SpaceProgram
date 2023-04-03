@@ -1,8 +1,7 @@
 const express = require("express");
-const path = require("path");
-const messageController = require("./controllers/messages.controller.js")
-const peopleController = require("./controllers/people.controller");
 
+const peopleRouter = require("./routes/people.router.js");
+const messagesRouter = require("./routes/messages.router.js");
 const PORT = 3000;
 
 const app = express();
@@ -11,7 +10,6 @@ const app = express();
 
 //=============================//
 //========= Home Page =========//
-
 app.get('/', (req, res) => {
     res.send("Hello!! :)");
 });
@@ -20,7 +18,6 @@ app.get('/', (req, res) => {
 
 //==============================//
 //========= Middleware =========//
-
 app.use( (req, res, next) => {
     const startTime = Date.now();
     console.log(`${req.method}, ${req.url}`);
@@ -34,29 +31,19 @@ app.use( (req, res, next) => {
 app.use( express.json() );
 
 
+
 //============================//
 //========= /people/ =========//
-
-app.get("/people", peopleController.getPeople);
-
-app.post("/people", peopleController.postPeople);
-
-app.get("/people/:personID", peopleController.getPerson);
-
+app.use("/people", peopleRouter);
 
 
 //==============================//
 //========= /messages/ =========//
-
-app.get("/messages", messageController.getMessages);
-
-app.post("/messages", messageController.postMessages);
-
+app.use("/messages", messagesRouter);
 
 
 //================================//
 //========= Start Server =========//
-
 app.listen(PORT, () => {
     console.log(`Listening on port: ${PORT}...`);
 });

@@ -1,6 +1,8 @@
+const path = require("path");
+
 function getMessages (req, res) {
     // res.send("<h1> You have no messages here today!! :( </h1>");
-    res.sendFile(path.join(__dirname, "index.html"));
+    res.sendFile(path.join(__dirname, "../index.html"));
 }
 
 
