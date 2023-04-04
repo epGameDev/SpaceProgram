@@ -17,6 +17,7 @@ const messagesRouter = express.Router();
 //================================//
 //========= Router Logic =========//
 messagesRouter.get("/", messageController.getMessages);
+messagesRouter.get("/image001", messageController.getImage);
 messagesRouter.post("/", messageController.postMessages);
 
 

@@ -5,6 +5,10 @@ function getMessages (req, res) {
     res.sendFile(path.join(__dirname, "../index.html"));
 }
 
+function getImage (req, res) {
+    res.sendFile(path.join(__dirname, "../public/images/IMG_2216.jpeg"));
+}
+
 
 function postMessages (req, res) {
     console.log(`<p> ...updating messages </p>`);
@@ -12,5 +16,6 @@ function postMessages (req, res) {
 
 module.exports = {
     getMessages,
+    getImage,
     postMessages,
 }
