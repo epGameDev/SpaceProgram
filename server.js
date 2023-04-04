@@ -1,4 +1,5 @@
 const express = require("express");
+const path = require("path");
 
 const peopleRouter = require("./routes/people.router.js");
 const messagesRouter = require("./routes/messages.router.js");
@@ -28,7 +29,7 @@ app.use( (req, res, next) => {
     console.log(` Time Elapsed: ${deltaTime}ms`);
 });
 
-app.use( express.static("public") )
+app.use( express.static(path.join(__dirname, "public")) ) //adds absolute path variable __driname to reach public.
 app.use( express.json() );
 
 
