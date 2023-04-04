@@ -18,6 +18,26 @@ const people = [
     {
         id: 4,
         name: "Maggie Simpson"
+    },
+    {
+        id: 5,
+        name: "Mario Mario"
+    },
+    {
+        id: 6,
+        name: "Luigi Mario"
+    },
+    {
+        id: 7,
+        name:  "Peach Toadstool"
+    },
+    {
+        id: 8,
+        name: "Bowser Koopa"
+    },
+    {
+        id: 9,
+        name: "Koopa Troopa"
     }
 ];
 
