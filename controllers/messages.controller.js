@@ -2,11 +2,11 @@ const path = require("path");
 
 function getMessages (req, res) {
     // res.send("<h1> You have no messages here today!! :( </h1>");
-    res.sendFile(path.join(__dirname, "../index.html"));
+    res.sendFile(path.join(__dirname, "..", "public", "views", "index.html"));
 }
 
 function getImage (req, res) {
-    res.sendFile(path.join(__dirname, "../public/images/IMG_2216.jpeg"));
+    res.sendFile(path.join(__dirname, "..", "public", "images", "IMG_2216.jpeg"));
 }
 
 

@@ -28,6 +28,7 @@ app.use( (req, res, next) => {
     console.log(` Time Elapsed: ${deltaTime}ms`);
 });
 
+app.use( express.static("public") )
 app.use( express.json() );
 
 
