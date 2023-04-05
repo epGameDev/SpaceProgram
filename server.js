@@ -6,14 +6,8 @@ const messagesRouter = require("./routes/messages.router.js");
 const PORT = 3000;
 
 const app = express();
-
-
-
-//=============================//
-//========= Home Page =========//
-app.get('/', (req, res) => {
-    res.send("Hello!! :)");
-});
+app.set("view engine", "hbs");
+app.set("views", path.join(__dirname, "public", "views"));
 
 
 
@@ -29,10 +23,19 @@ app.use( (req, res, next) => {
     console.log(` Time Elapsed: ${deltaTime}ms`);
 });
 
-app.use( express.static(path.join(__dirname, "public")) ) //adds absolute path variable __driname to reach public.
+app.use( "/site", express.static(path.join(__dirname, "public")) ) //adds absolute path variable __dirname to reach public.
 app.use( express.json() );
 
 
+
+//============================//
+//========= Homepage =========//
+app.get('/', (req, res) => {
+    res.render("index", {
+        title: "Space Program",
+        style: "main",
+    });
+})
 
 //============================//
 //========= /people/ =========//

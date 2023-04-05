@@ -7,4 +7,10 @@ body{
     padding: 0;
     font-family: Arial, Helvetica, sans-serif;
     text-align: center;
+    position: relative;
+}
+
+ul {
+    list-style: none;
+    text-align: left;
 }

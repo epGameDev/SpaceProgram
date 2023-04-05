@@ -1,8 +1,13 @@
 const path = require("path");
+const model = require("../models/friends.model")
 
 function getMessages (req, res) {
-    // res.send("<h1> You have no messages here today!! :( </h1>");
-    res.sendFile(path.join(__dirname, "..", "public", "views", "index.html"));
+    res.render('messages', {
+        title: "Messages",
+        style: "main",
+        people: model[2].name,
+    });
+    // res.sendFile(path.join(__dirname, "..", "public", "views", "index.hbs"));
 }
 
 function getImage (req, res) {
