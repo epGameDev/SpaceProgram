@@ -4,10 +4,13 @@
   "description": "Demo of a space launch mission program that schedules space launches to habitiabal planets in search for life",
   "main": "index.js",
   "scripts": {
+    "install-server": "npm install --prefix server",
+    "install-client": "npm install --prefix client",
+    "install": "npm run install-server && npm run install-client",
     "server": "npm run dev --prefix server",
     "client": "npm start --prefix client",
     "dev": "npm run server & npm run client",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "npm run test --prefix server && npm run test --prefix client"
   },
   "repository": {
     "type": "git",
