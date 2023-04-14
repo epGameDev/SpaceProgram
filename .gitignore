@@ -42,6 +42,7 @@ build/Release
 
 # production
 /build
+server/public
 
 
 # Dependency directories
