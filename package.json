@@ -1,0 +1,29 @@
+{
+  "name": "space-mission-control",
+  "version": "1.0.0",
+  "description": "Demo of a space launch mission program that schedules space launches to habitiabal planets in search for life",
+  "main": "index.js",
+  "scripts": {
+    "server": "npm run dev --prefix server",
+    "client": "npm start --prefix client",
+    "dev": "npm run server & npm run client",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/epGameDev/SpaceProgram.git"
+  },
+  "keywords": [
+    "demo",
+    "react",
+    "node",
+    "API",
+    "mongodb"
+  ],
+  "author": "Eric Philippot",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/epGameDev/SpaceProgram/issues"
+  },
+  "homepage": "https://github.com/epGameDev/SpaceProgram#readme"
+}
