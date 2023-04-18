@@ -1,10 +1,10 @@
-const { launchesMap } = require("../../models/launches/launches.models");
+const { getAllLaunches } = require("../../models/launches/launches.models");
 
-function getLaunches (req, res) {
+function httpGetAllLaunches (req, res) {
 
-    return res.status(200).json(Array.from(launchesMap.values()));
+    return res.status(200).json(getAllLaunches());
 }
 
 module.exports = {
-    getLaunches,
+    httpGetAllLaunches,
 }

@@ -5,7 +5,7 @@ const launch = {
     mission: "Kepler Exploration X",
     rocket: "Explorer IS1",
     launchDate: new Date("May 13, 2023"),
-    destination: "Kepler-442 b",
+    target: "Kepler-442 b",
     customers: ["ZTM", "NASA"],
     isUpcoming: true,
     success: true,
@@ -13,6 +13,10 @@ const launch = {
 
 launchesMap.set(launch.flightNumber, launch);
 
+function getAllLaunches () {
+    return Array.from(launchesMap.values());
+}
+
 module.exports = {
-    launchesMap,
+    getAllLaunches,
 }
