@@ -11,7 +11,7 @@ const server = http.createServer(app);
 
 async function startServer() {
 
-    await loadPlanetData(); //Required because csv of file stream.
+    await loadPlanetData(); //await required because of csv file stream.
     server.listen(PORT, () => {
         console.log(
             `
