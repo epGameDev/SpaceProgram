@@ -1,5 +1,3 @@
-import { post } from "../../../server/src/app";
-
 const API_URL = "http://localhost:8000";
 
 // Load planets and return as JSON.
