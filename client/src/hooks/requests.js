@@ -1,3 +1,5 @@
+import { post } from "../../../server/src/app";
+
 const API_URL = "http://localhost:8000";
 
 // Load planets and return as JSON.
@@ -15,9 +17,24 @@ async function httpGetLaunches() {
   });
 }
 
+// Submit given launch data to launch system.
 async function httpSubmitLaunch(launch) {
-  // TODO: Once API is ready.
-  // Submit given launch data to launch system.
+  try {
+    return await fetch(`${API_URL}/launches`, {
+      method: "post",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(launch), // because fetch requires a string
+    });
+  } catch (error) {
+    return {
+      ok: false,
+    }
+  }
+
+
+
 }
 
 async function httpAbortLaunch(id) {

@@ -15,9 +15,10 @@ function httpAddNewLaunch(req, res) {
         });
     }
 
+    // Received as string or number and convert to date object.
     launch.launchDate = new Date(launch.launchDate);
 
-    // Date objects convert input to the unix timestamp.
+    // Date objects convert input to the unix timestamp which is a number.
     if (isNaN(launch.launchDate) || launch.launchDate < new Date()) {
         return res.status(400).json({
             error: "Date is invalid or before current. Example: November 30, 2029",
