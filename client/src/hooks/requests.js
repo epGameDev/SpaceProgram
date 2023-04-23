@@ -18,6 +18,7 @@ async function httpGetLaunches() {
 // Submit given launch data to launch system.
 async function httpSubmitLaunch(launch) {
   try {
+    console.log(launch);
     return await fetch(`${API_URL}/launches`, {
       method: "post",
       headers: {
@@ -30,7 +31,7 @@ async function httpSubmitLaunch(launch) {
       ok: false,
     }
   }
-
+  
 
 
 }

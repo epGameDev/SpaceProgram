@@ -9,8 +9,8 @@ const launch = {
     rocket: "Explorer IS1",
     launchDate: new Date("May 13, 2023"),
     target: "Kepler-442 b",
-    customers: ["ZTM", "NASA"],
-    isUpcoming: true,
+    customer: ["ZTM", "NASA"],
+    upcoming: true,
     success: true,
 }
 
@@ -32,8 +32,8 @@ function addNewLaunch (newLaunch) {
             // updates current flightNumber and increments it, thus creating new entry in .set()
             flightNumber: latestFlightNumber,
             // while creating missing data below, otherwise it updates it.
-            customers: ["ZTM", "NASA"],
-            isUpcoming: true,
+            customer: ["ZTM", "NASA"],
+            upcoming: true,
             success: true,
     }));
 }
