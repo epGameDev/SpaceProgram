@@ -13,6 +13,7 @@ const launch = {
     success: true,
 }
 
+// uses the current hard coded flight number as entry key and assigns the launch object as value.
 launchesMap.set(launch.flightNumber, launch);
 
 //===================================//
@@ -32,17 +33,16 @@ function getAllLaunches () {
 
 //=================================//
 //========= Create Launch =========//
-function addNewLaunch (newLaunch) {
+function addNewLaunch (launch) {
     latestFlightNumber++;
 
     launchesMap.set(
-        // Sets current flightNumber
-        launchesMap.flightNumber, 
-        //Assigns it to the new launch object
-        Object.assign(newLaunch, {
-            // updates current flightNumber and increments it, thus creating new entry in .set()
+        // Makes entry with latest flight number and sets to object
+        latestFlightNumber, 
+        //Assigns values or creates entries to objects.
+        Object.assign(launch, {
+            // updates existing properties and creates new properties not present
             flightNumber: latestFlightNumber,
-            // while creating missing data below, otherwise it updates it.
             customer: ["ZTM", "NASA"],
             upcoming: true,
             success: true,
