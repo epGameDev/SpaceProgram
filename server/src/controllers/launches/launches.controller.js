@@ -45,9 +45,6 @@ function httpAddNewLaunch(req, res) {
 function httpAbortLaunch(req, res) {
     const launchId = Number(req.params.id); // ID returns as string
     const aborted = abortLaunchById(launchId);
-    
-    console.log(`aborted object: ${aborted}`);
-    console.log(launchId, typeof(launchId));
 
     // if launch does not exist
     if (!existsLaunchWithId(launchId)) {
@@ -58,7 +55,6 @@ function httpAbortLaunch(req, res) {
     }
 
     // if launch does exist
-
     return res.status(200).json(aborted);
 }
 

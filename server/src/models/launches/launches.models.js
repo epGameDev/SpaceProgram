@@ -55,7 +55,6 @@ function addNewLaunch (launch) {
 //========= Delete Launches =========//
 function abortLaunchById(launchId){
     const aborted = launchesMap.get(launchId);
-    console.log(launchesMap);
 
     // setting to false on object instead of deleting object so to preserve data for other uses.
     aborted.upcoming = false;

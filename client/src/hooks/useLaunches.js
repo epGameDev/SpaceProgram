@@ -7,6 +7,9 @@ import {
 } from './requests';
 
 function useLaunches(onSuccessSound, onAbortSound, onFailureSound) {
+  
+  //===============================//
+  //========= Local Calls =========//
   const [launches, saveLaunches] = useState([]);
   const [isPendingLaunch, setPendingLaunch] = useState(false);
 
@@ -18,6 +21,11 @@ function useLaunches(onSuccessSound, onAbortSound, onFailureSound) {
   useEffect(() => {
     getLaunches();
   }, [getLaunches]);
+  
+  
+  
+  //=====================================//
+  //========= Create New Launch =========//
 
   const submitLaunch = useCallback(async (e) => {
     e.preventDefault();
@@ -47,12 +55,16 @@ function useLaunches(onSuccessSound, onAbortSound, onFailureSound) {
     }
   }, [getLaunches, onSuccessSound, onFailureSound]);
 
+  
+  
+  
+  //================================//
+  //========= Abort Launch =========//
+
   const abortLaunch = useCallback(async (id) => {
     const response = await httpAbortLaunch(id);
 
-    
-    // TODO: Set success based on response.
-    const success = false;
+    const success = response.ok;
     if (success) {
       getLaunches();
       onAbortSound();
