@@ -1,10 +1,18 @@
-const { getAllLaunches, addNewLaunch} = require("../../models/launches/launches.models");
+const { getAllLaunches, addNewLaunch, existsLaunchWithId, abortLaunchById} = require("../../models/launches/launches.models");
 
+
+
+//====================================//
+//========= Get All Launches =========//
 function httpGetAllLaunches (req, res) {
 
     return res.status(200).json(getAllLaunches());
 }
 
+
+
+//=====================================//
+//========= Submit New Launch =========//
 function httpAddNewLaunch(req, res) {
     const launch = req.body;
 
@@ -19,7 +27,7 @@ function httpAddNewLaunch(req, res) {
     launch.launchDate = new Date(launch.launchDate);
 
     // Date objects convert input to the unix timestamp which is a number.
-    if (isNaN(launch.launchDate) || launch.launchDate <= new Date()) {
+    if (isNaN(launch.launchDate)) {
         return res.status(400).json({
             error: "Date is invalid or before current. Example: November 30, 2029",
         });
@@ -30,7 +38,32 @@ function httpAddNewLaunch(req, res) {
     return res.status(201).json(launch);
 }
 
+
+
+//================================//
+//========= Abort Launch =========//
+function httpAbortLaunch(req, res) {
+    const launchId = Number(req.params.id); // ID returns as string
+    const aborted = abortLaunchById(launchId);
+    
+    console.log(`aborted object: ${aborted}`);
+    console.log(launchId, typeof(launchId));
+
+    // if launch does not exist
+    if (!existsLaunchWithId(launchId)) {
+        
+        return res.status(404).json({
+            error: "Abort Controller: Launch ID not found",
+        });
+    }
+
+    // if launch does exist
+
+    return res.status(200).json(aborted);
+}
+
 module.exports = {
     httpGetAllLaunches,
     httpAddNewLaunch,
+    httpAbortLaunch,
 }
