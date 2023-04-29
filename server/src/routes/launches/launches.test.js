@@ -2,7 +2,7 @@ const request = require("supertest");
 const app = require("../../app");
 
 // test fixture
-describe("Test GET /launches", () => {
+describe("Test GET /launches endpoint", () => {
     // Test description. 
     test("It should respond with 200 success", async () => {
         const response = await request(app)

@@ -4,7 +4,3 @@ Project is using keplar archived space data contained in a CVS file. This file i
 
 This project is ongoing as a attempt to get more familiar with Nodejs on a quest to be a backend engineer. 
 
-Time eatimate of completion: 4-26-23. 
-
-
-
