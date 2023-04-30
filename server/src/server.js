@@ -1,17 +1,36 @@
 const http = require("http");
+const mongoose = require("mongoose");
 const app = require("./app");
 
 const {loadPlanetData} = require("./models/planets/planets.model");
+const { open } = require("fs");
 
 const PORT = process.env.PORT || 8000;
+const MONGO_ULI = "";
+
 const server = http.createServer(app);
 
 
+mongoose.connection.once("open", () => {
+    console.log("MongoDB connection ready!");
+});
 
+mongoose.connection.on("error", err => {
+    console.error(err);
+});
 
 async function startServer() {
+    // Load await promise data before server listens to ports
+    await mongoose.connect(MONGO_ULI, {
+        // Four parameters to pass each time to prevent old ways of doing things.
+        useNewUrlParser: true,
+        useFindAndModify: false,
+        useCreateIndex: true,
+        useUnifiedTopology: true,
+    }); 
 
-    await loadPlanetData(); //await required because of csv file stream.
+    //await required because of csv file stream.
+    await loadPlanetData(); 
     server.listen(PORT, () => {
         console.log(
             `
