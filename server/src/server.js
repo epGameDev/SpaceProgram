@@ -5,7 +5,7 @@ const app = require("./app");
 const {loadPlanetData} = require("./models/planets/planets.model");
 
 const PORT = process.env.PORT || 8000;
-const MONGO_ULI = "mongodb+srv://Eric:<password>@space-launch-cluster.ncj9lsl.mongodb.net/?retryWrites=true&w=majority";
+const MONGO_ULI = "";
 
 const server = http.createServer(app);
 
@@ -20,13 +20,7 @@ mongoose.connection.on("error", err => {
 
 async function startServer() {
     // Load await promise data before server listens to ports
-    await mongoose.connect(MONGO_ULI, {
-        // Four parameters to pass each time to prevent old ways of doing things.
-        useNewUrlParser: true,
-        useFindAndModify: false,
-        useCreateIndex: true,
-        useUnifiedTopology: true,
-    }); 
+    await mongoose.connect(MONGO_ULI); 
 
     //await required because of csv file stream.
     await loadPlanetData(); 
