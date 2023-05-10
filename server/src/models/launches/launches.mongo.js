@@ -21,6 +21,7 @@ const launchesSchema = mongoose.Schema({
         required: true,
     },
     target: {
+        // type: mongoose.ObjectId,
         type: String,
         ref:  "Planet",
         required: true,

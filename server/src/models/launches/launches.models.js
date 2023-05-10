@@ -8,7 +8,7 @@ const launch = {
     rocket: "Explorer IS1",
     target: "Kepler-442 b",
     flightNumber: 100,
-    customer: ["ZTM", "NASA"],
+    customers: ["ZTM", "NASA"],
     upcoming: true,
     success: true,
 }

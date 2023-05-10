@@ -5,7 +5,7 @@ const app = require("./app");
 const {loadPlanetData} = require("./models/planets/planets.model");
 
 const PORT = process.env.PORT || 8000;
-const MONGO_ULI = "";
+const MONGO_ULI = "mongodb+srv://Eric:Gi6dB01ccYr2l52f@space-launch-cluster.ncj9lsl.mongodb.net/?retryWrites=true&w=majority";
 
 const server = http.createServer(app);
 
