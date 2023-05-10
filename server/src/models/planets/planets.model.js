@@ -2,9 +2,9 @@ const { parse } = require("csv-parse");
 const path = require("path");
 const fs = require("fs");
 
+const planets = require("./planets.mongo");
+const { log } = require("console");
 const keplerData = path.join(__dirname, "..", "..", "..", "data", "kepler_data.csv");
-
-const planetResults = [];
 
 const isPlanetHabitable = (planet) => {
     if (planet["koi_disposition"] === "CONFIRMED" 
@@ -25,28 +25,55 @@ function loadPlanetData () {
                 comment: '#',
                 columns: true,
             }))
-            .on("data", (data) => {
+            .on("data", async (data) => {
                 if (isPlanetHabitable(data)) {
-                    planetResults.push(data);
+                    await savePlanets(data);
                 }
             })
             .on("error", err => {
                 console.error(err);
                 reject(err);
             })
-            .on("end", () => {
-                // console.log(planetResults); // full array of objects. 
-                // console.log(planetResults.map(item => item['koi_insol'])); // filter by light received. (0.36 - 1.11)
-                // console.log(planetResults.map(item => item['koi_prad']));  // filter by planet size to earth (< 1.6)
-                // console.log(planetResults.map(item => item['kepoi_name'])); // filter by planet name. 
-                console.log(`Done streaming! There are ${planetResults.length} planets found that are potentially habitable!`);
+            .on("end", async () => {
+                const countPlanetsFound = (await getAllPlanets()).length;
+                // console.log(await getAllPlanets());
+                console.log(`Done streaming! There are ${countPlanetsFound} planets found that are potentially habitable!`);
                 resolve();
         });
     });
 }
 
-    function getAllPlanets() {
-        return planetResults
+    async function getAllPlanets() {
+        // Allows a filter. 
+        // First param "{}" returns all documents.
+        // Second param "{}" returns the projection which is a list of fields.
+        return await planets.find({});
+    }
+
+
+    async function savePlanets(planet) 
+    {
+
+        try {
+
+            // updateOne( {filter}, {update or opt.insert}, {upsert: bool} )
+           return await planets.updateOne(
+                {
+                    // First argument filters to see if matching data exists
+                    keplerName: planet.kepler_name,
+                }, 
+                {
+                    // Second argument updates if matching data exists.
+                    // If upsert is true, second argument inserts if matching data doesn't exist.
+                    keplerName: planet.kepler_name,
+                },
+                {
+                    upsert: true,
+                });
+                
+        } catch (error) {
+            console.error(`Could not save planet ${error}`);
+        }
     }
 
 
