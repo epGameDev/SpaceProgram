@@ -1,5 +1,6 @@
-// const launches = require("./launches.mongo");
-const launchesMap = new Map();
+const launchesDB = require("./launches.mongo");
+const planets = require("../planets/planets.mongo");
+// const launchesMap = new Map();
 
 let latestFlightNumber = 100;
 
@@ -15,7 +16,9 @@ const launch = {
 }
 
 // uses the current hard coded flight number as entry key and assigns the launch object as value.
-launchesMap.set(launch.flightNumber, launch);
+// launchesMap.set(launch.flightNumber, launch);
+saveLaunch(launch);
+
 
 //===================================//
 //========= Verify Launches =========//
@@ -26,15 +29,39 @@ function existsLaunchWithId(launchId) {
 
 //================================//
 //========= Get Launches =========//
-function getAllLaunches () {
-    return Array.from(launchesMap.values());
+async function getAllLaunches () {
+    // return Array.from(launchesMap.values()); //OLD
+    await launchesDB.find({}, {
+        _id: 0,
+        __v: 0,
+    });
 }
 
+async function saveLaunch(pendingLaunch) {
+    const plantIndex = await planets.findOne({
+        keplerName: pendingLaunch.target,
+    });
 
+    if (!plantIndex) {
+        throw new Error("Matching target not found in schema");
+    }
+    return await launchesDB.updateOne(
+        {
+            flightNumber: pendingLaunch.flightNumber,
+        },
+
+        pendingLaunch,
+
+        {
+            upsert: true,
+        }
+
+    );
+}
 
 //=================================//
 //========= Create Launch =========//
-function addNewLaunch (launch) {
+function addNewLaunch (pendingLaunch) {
     latestFlightNumber++;
 
     launchesMap.set(
@@ -48,6 +75,28 @@ function addNewLaunch (launch) {
             upcoming: true,
             success: true,
     }));
+
+   /* return await pendingLaunch.updateOne(
+        {
+            flightNumber: pendingLaunch.flightNumber,
+        },
+        {
+            launchDate: pendingLaunch.launchDate,
+            mission: pendingLaunch.mission,
+            rocket: pendingLaunch.rocket,
+            target: pendingLaunch.target,
+            flightNumber: pendingLaunch.flightNumber,
+            customers: ["ZTM", "NASA"],
+            upcoming: true,
+            success: true,
+        },
+        {
+            upsert: true,
+        }
+
+    );
+
+    */
 }
 
 

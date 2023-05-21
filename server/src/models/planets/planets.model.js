@@ -3,7 +3,6 @@ const path = require("path");
 const fs = require("fs");
 
 const planets = require("./planets.mongo");
-const { log } = require("console");
 const keplerData = path.join(__dirname, "..", "..", "..", "data", "kepler_data.csv");
 
 const isPlanetHabitable = (planet) => {
@@ -27,7 +26,7 @@ function loadPlanetData () {
             }))
             .on("data", async (data) => {
                 if (isPlanetHabitable(data)) {
-                    await savePlanets(data);
+                    await savePlanet(data);
                 }
             })
             .on("error", err => {
@@ -36,7 +35,6 @@ function loadPlanetData () {
             })
             .on("end", async () => {
                 const countPlanetsFound = (await getAllPlanets()).length;
-                // console.log(await getAllPlanets());
                 console.log(`Done streaming! There are ${countPlanetsFound} planets found that are potentially habitable!`);
                 resolve();
         });
@@ -46,12 +44,15 @@ function loadPlanetData () {
     async function getAllPlanets() {
         // Allows a filter. 
         // First param "{}" returns all documents.
-        // Second param "{}" returns the projection which is a list of fields.
-        return await planets.find({});
+        // Second param "{}" returns the projection which excludes a list of fields.
+        return await planets.find({}, {
+            "_id": 0,
+            "__v": 0,
+        });
     }
 
 
-    async function savePlanets(planet) 
+    async function savePlanet(planet) 
     {
 
         try {

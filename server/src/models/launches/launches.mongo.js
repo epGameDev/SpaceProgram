@@ -28,7 +28,7 @@ const launchesSchema = mongoose.Schema({
     },
     customers: {
         type: Array,
-        default: [ZTM, NASA],
+        default: ["ZTM", "NASA"],
         required: true,
     },
     upcoming: {

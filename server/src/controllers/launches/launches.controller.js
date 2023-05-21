@@ -4,9 +4,9 @@ const { getAllLaunches, addNewLaunch, existsLaunchWithId, abortLaunchById} = req
 
 //====================================//
 //========= Get All Launches =========//
-function httpGetAllLaunches (req, res) {
+async function httpGetAllLaunches (req, res) {
 
-    return res.status(200).json(getAllLaunches());
+    return res.status(200).json(await getAllLaunches());
 }
 
 
