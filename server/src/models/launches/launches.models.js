@@ -1,8 +1,7 @@
 const launchesDB = require("./launches.mongo");
 const planets = require("../planets/planets.mongo");
-// const launchesMap = new Map();
 
-let latestFlightNumber = 100;
+const DEFAULT_FLIGHT_NUMBER = 100;
 
 const launch = {
     launchDate: new Date("May 13, 2023"),
@@ -15,20 +14,36 @@ const launch = {
     success: true,
 }
 
-// uses the current hard coded flight number as entry key and assigns the launch object as value.
-// launchesMap.set(launch.flightNumber, launch);
 saveLaunch(launch);
 
 
 //===================================//
 //========= Verify Launches =========//
+
 function existsLaunchWithId(launchId) {
     return launchesMap.has(launchId);
 }
 
 
+
+//=============================================//
+//========= Get And Set Flight Number =========//
+
+// Sorts in descending order since .findOne grabs the first option.
+async function getLatestFlightNumber() {
+    const latestLaunch = await launchesDB.findOne().sort("-flightNumber");
+
+    if(!latestLaunch){
+        return DEFAULT_FLIGHT_NUMBER;
+    }
+
+    return latestLaunch.flightNumber;
+}
+
+
 //================================//
 //========= Get Launches =========//
+
 async function getAllLaunches () {
     // return Array.from(launchesMap.values()); //OLD
     await launchesDB.find({}, {
@@ -37,7 +52,13 @@ async function getAllLaunches () {
     });
 }
 
+
+
+//=================================//
+//========= Save Launches =========//
+
 async function saveLaunch(pendingLaunch) {
+    
     const plantIndex = await planets.findOne({
         keplerName: pendingLaunch.target,
     });
@@ -61,48 +82,24 @@ async function saveLaunch(pendingLaunch) {
 
 //=================================//
 //========= Create Launch =========//
-function addNewLaunch (pendingLaunch) {
-    latestFlightNumber++;
 
-    launchesMap.set(
-        // Makes entry with latest flight number and sets to object
-        latestFlightNumber, 
-        //Assigns values or creates entries to objects.
-        Object.assign(launch, {
-            // updates existing properties and creates new properties not present
-            flightNumber: latestFlightNumber,
-            customer: ["ZTM", "NASA"],
-            upcoming: true,
-            success: true,
-    }));
+async function scheduleNewLaunch(scheduledLaunch) {
+    
+    const fetchedFlightNumber = await getLatestFlightNumber() +1;
+    const newLaunch = Object.assign(scheduledLaunch, {
+        flightNumber: fetchedFlightNumber,
+        success: true,
+        upcoming: true,
+        customers: ["ZTM", "NASA"],
+    });
 
-   /* return await pendingLaunch.updateOne(
-        {
-            flightNumber: pendingLaunch.flightNumber,
-        },
-        {
-            launchDate: pendingLaunch.launchDate,
-            mission: pendingLaunch.mission,
-            rocket: pendingLaunch.rocket,
-            target: pendingLaunch.target,
-            flightNumber: pendingLaunch.flightNumber,
-            customers: ["ZTM", "NASA"],
-            upcoming: true,
-            success: true,
-        },
-        {
-            upsert: true,
-        }
-
-    );
-
-    */
+    return await saveLaunch(newLaunch);
 }
-
 
 
 //===================================//
 //========= Delete Launches =========//
+
 function abortLaunchById(launchId){
     const aborted = launchesMap.get(launchId);
 
@@ -119,6 +116,6 @@ function abortLaunchById(launchId){
 module.exports = {
     existsLaunchWithId,
     getAllLaunches,
-    addNewLaunch,
+    scheduleNewLaunch,
     abortLaunchById,
 }

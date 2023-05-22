@@ -1,4 +1,4 @@
-const { getAllLaunches, addNewLaunch, existsLaunchWithId, abortLaunchById} = require("../../models/launches/launches.models");
+const { getAllLaunches, existsLaunchWithId, abortLaunchById, scheduleNewLaunch} = require("../../models/launches/launches.models");
 
 
 
@@ -13,7 +13,7 @@ async function httpGetAllLaunches (req, res) {
 
 //=====================================//
 //========= Submit New Launch =========//
-function httpAddNewLaunch(req, res) {
+async function httpAddNewLaunch(req, res) {
     const launch = req.body;
 
     if (!launch.mission || !launch.rocket || !launch.launchDate || !launch.target) 
@@ -27,6 +27,7 @@ function httpAddNewLaunch(req, res) {
     launch.launchDate = new Date(launch.launchDate);
 
     // Date objects convert input to the unix timestamp which is a number.
+    // If returned value is not a number, error is thrown.
     if (isNaN(launch.launchDate)) {
         return res.status(400).json({
             error: "Date is invalid or before current. Example: November 30, 2029",
@@ -34,7 +35,7 @@ function httpAddNewLaunch(req, res) {
     }
 
 
-    addNewLaunch(launch);
+    await scheduleNewLaunch(launch);
     return res.status(201).json(launch);
 }
 
