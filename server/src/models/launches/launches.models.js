@@ -30,6 +30,7 @@ function existsLaunchWithId(launchId) {
 //========= Get And Set Flight Number =========//
 
 // Sorts in descending order since .findOne grabs the first option.
+// "-flightNumber" changes it from ascending to descending order.
 async function getLatestFlightNumber() {
     const latestLaunch = await launchesDB.findOne().sort("-flightNumber");
 
@@ -45,7 +46,6 @@ async function getLatestFlightNumber() {
 //========= Get Launches =========//
 
 async function getAllLaunches () {
-    // return Array.from(launchesMap.values()); //OLD
     await launchesDB.find({}, {
         _id: 0,
         __v: 0,
@@ -59,20 +59,19 @@ async function getAllLaunches () {
 
 async function saveLaunch(pendingLaunch) {
     
-    const plantIndex = await planets.findOne({
+    const plantIndex = await planets.findOneAndUpdate({
         keplerName: pendingLaunch.target,
     });
 
     if (!plantIndex) {
         throw new Error("Matching target not found in schema");
     }
+
     return await launchesDB.updateOne(
         {
             flightNumber: pendingLaunch.flightNumber,
         },
-
         pendingLaunch,
-
         {
             upsert: true,
         }
