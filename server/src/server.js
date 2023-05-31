@@ -1,26 +1,16 @@
 const http = require("http");
-const mongoose = require("mongoose");
 const app = require("./app");
 
 const {loadPlanetData} = require("./models/planets/planets.model");
+const { mongoConnect } = require("./services/mongo");
 
 const PORT = process.env.PORT || 8000;
-const MONGO_URI = "mongodb+srv://Eric:Gi6dB01ccYr2l52f@space-launch-cluster.ncj9lsl.mongodb.net/?retryWrites=true&w=majority";
-
 const server = http.createServer(app);
 
 
-mongoose.connection.once("open", () => {
-    console.log("MongoDB connection ready!");
-});
-
-mongoose.connection.on("error", err => {
-    console.error(err);
-});
-
 async function startServer() {
     // Load await promise data before server listens to ports
-    await mongoose.connect(MONGO_URI); 
+    await  mongoConnect();
 
     //await required because of csv file stream.
     await loadPlanetData(); 

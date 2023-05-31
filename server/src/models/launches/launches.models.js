@@ -20,8 +20,10 @@ saveLaunch(launch);
 //===================================//
 //========= Verify Launches =========//
 
-function existsLaunchWithId(launchId) {
-    return launchesMap.has(launchId);
+async function existsLaunchWithId(launchId) {
+    return await launchesDB.findOne({
+        "flightNumber": launchId,
+    });
 }
 
 
@@ -99,14 +101,18 @@ async function scheduleNewLaunch(scheduledLaunch) {
 //===================================//
 //========= Delete Launches =========//
 
-function abortLaunchById(launchId){
-    const aborted = launchesMap.get(launchId);
-
+async function abortLaunchById(launchId){
     // setting to false on object instead of deleting object so to preserve data for other uses.
-    aborted.upcoming = false;
-    aborted.success = false;
+    return await launchesDB.updateOne( {"flightNumber": launchId},
+    {
+        "upcoming": false,
+        "success": false,
+    });
 
-    return aborted;
+    // aborted.upcoming = false;
+    // aborted.success = false;
+
+    // return aborted;
 }
 
 

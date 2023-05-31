@@ -42,20 +42,26 @@ async function httpAddNewLaunch(req, res) {
 
 //================================//
 //========= Abort Launch =========//
-function httpAbortLaunch(req, res) {
+async function httpAbortLaunch(req, res) {
     const launchId = Number(req.params.id); // ID returns as string
-    const aborted = abortLaunchById(launchId);
-
+    const existingLaunch = await existsLaunchWithId(launchId);
+    
     // if launch does not exist
-    if (!existsLaunchWithId(launchId)) {
+    if (!existingLaunch) {
         
         return res.status(404).json({
             error: "Abort Controller: Launch ID not found",
         });
     }
-
+    
     // if launch does exist
-    return res.status(200).json(aborted);
+    const aborted = await abortLaunchById(launchId);
+    if (!aborted) {
+        return res.status(400).json({
+            error: "aborted: Bad Request"
+        });
+    }
+    return res.status(200).json({ok: true});
 }
 
 module.exports = {
