@@ -46,9 +46,9 @@ async function getLatestFlightNumber() {
 //========= Get Launches =========//
 
 async function getAllLaunches () {
-    await launchesDB.find({}, {
-        _id: 0,
-        __v: 0,
+    return await launchesDB.find({}, {
+        "_id": 0,
+        "__v": 0,
     });
 }
 
