@@ -109,10 +109,6 @@ async function abortLaunchById(launchId){
         "success": false,
     });
 
-    // aborted.upcoming = false;
-    // aborted.success = false;
-
-    // return aborted;
 }
 
 

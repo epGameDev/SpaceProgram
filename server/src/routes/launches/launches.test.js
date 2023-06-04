@@ -7,7 +7,6 @@ describe("Launches API", () => {
 
     beforeAll(async () => await mongoConnect());
 
-    // afterAll(async () => await mongoDisconnect());
 
     // test fixture
     describe("Test GET /launches endpoint", () => {
