@@ -3,6 +3,7 @@ const cors = require("cors"); // sets cors header for us so server and client ca
 const morgan = require("morgan");
 const path = require("path");
 const API = require("./routes/api");
+const { clear } = require("console");
 
 const app = express();
 
@@ -20,7 +21,7 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, "..", "public")));
 
 
-app.use("/v1"API)
+app.use("/v1", API);
 
 app.get('/*', (req, res) => {
     return res.sendFile(path.join(__dirname, "..", "public", "index.html"));

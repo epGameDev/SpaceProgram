@@ -1,6 +1,8 @@
 const request = require("supertest");
 const app = require("../../app");
-const { mongoConnect, mongoDisconnect } = require("../../services/mongo");
+const { mongoConnect } = require("../../services/mongo");
+
+const API_VERSION = "v1";
 
 
 describe("Launches API", () => {
@@ -13,7 +15,7 @@ describe("Launches API", () => {
         // Test description. 
         test("It should respond with 200 success", async () => {
             const response = await request(app)
-            .get("/launches")
+            .get(`/${API_VERSION}/launches`)
             .expect('Content-Type', /json/)
             .expect(200);
         });
@@ -43,7 +45,7 @@ describe("Launches API", () => {
         // Post Test
         test("It should respond with 201 created", async () => {
             const response = await request(app)
-                .post("/launches")
+                .post(`/${API_VERSION}/launches`)
                 .send(completeLaunchData)
                 .expect("Content-Type", /json/)
                 .expect(201);
@@ -59,7 +61,7 @@ describe("Launches API", () => {
         //Error Cases
         test("Needs to check for missing property and throw 404 error", async () => {
             const response = await request(app)
-            .post("/launches")
+            .post(`/${API_VERSION}/launches`)
             .send(launchDataWithoutDate)
             .expect("Content-Type", /json/)
             .expect(400);
@@ -69,7 +71,7 @@ describe("Launches API", () => {
         
         test("It should catch any invalid dates", async () => {
             const response = await request(app)
-            .post("/launches")
+            .post(`/${API_VERSION}/launches`)
             .send(dataInvalidDate)
             .expect("Content-Type", /json/)
             .expect(400);
