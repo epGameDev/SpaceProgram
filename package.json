@@ -32,6 +32,6 @@
   },
   "homepage": "https://github.com/epGameDev/SpaceProgram#readme",
   "dependencies": {
-    "pm2": "^7.0.0"
+    "pm2": "^7.0.3"
   }
 }
