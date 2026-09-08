@@ -28,7 +28,7 @@
   },
   "dependencies": {
     "cors": "^2.8.5",
-    "csv-parse": "^5.3.6",
+    "csv-parse": "^7.0.2",
     "express": "^4.22.2",
     "mongoose": "^8.24.1",
     "morgan": "^1.11.0",
